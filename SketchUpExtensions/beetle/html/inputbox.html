@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <script src="../vendor/jquery.js"></script>
+  <script src="../vendor/popper.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.js"></script>
+  <script src="../vendor/vue.js"></script>
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script src="functions.js"></script>
+  <link rel="stylesheet" href="style.css" type="text/css"/>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+</head>
+
+
+<body> 
+
+  <div id="app" v-on:keyup.enter="calculate" v-on:keyup.esc="cancel" class="big_box">
+    <div class="small_box">
+      <div class="title">
+        <h1>BEETLE<sup>2</sup></h1>
+      </div>
+
+      <div class="dropbox_big">
+        <div><h5 id="material">MATERIAL</h5></div>
+        <div v-for="(input, index) in options.material" class="separate">
+            <template>
+              <select class="custom-select" 
+                  v-model="input.value"
+                  v-bind:autofocus.once="index == 0"
+                  v-bind:size.once="input.type == null">
+                <option v-for="option in input.options">{{ option }}</option>
+              </select>
+            </template>
+        </div>
+      </div>
+
+
+      <h5>GEOMETRY</h5> 
+      <div class="three_container"> 
+        <div class="grid_element" v-for="(input, index) in options.geometry">
+          <label>{{ input.label }}</label> 
+          <div class="two_container" v-if="input.label === 'PRIMARY SPAN [m]'"> 
+            <div><input type="range" min="5" max="9" step="0.1" id="slider_1" v-model="input.value" class="slider" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_1"></p></div>
+          </div>
+          <div class="two_container" v-if="input.label === 'SECONDARY SPAN [m]'">
+            <div><input type="range" min="5" max="12" step="0.1" id="slider_2" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_2"></p></div>
+          </div>
+          <div class="two_container" v-if="input.label === 'INTER-STOREY HEIGHT [m]'">
+            <div><input type="range" min="3.5" max="4" step="0.1" id="slider_4" class="slider" v-model.number="input.value" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_4" ></p></div>
+          </div>
+          <div class="two_container" v-if="input.label === 'NO. OF PRIMARY SPANS'">
+            <div><input type="range" min="2" max="21" step="1" id="slider_5" class="slider" v-model.number="input.value" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_5" ></p></div>
+          </div>
+          <div class="two_container" v-if="input.label === 'NO. OF SECONDARY SPANS'">
+            <div><input type="range" min="1" max="13" step="1" id="slider_6" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_6"></p></div>
+          </div>
+          <div class="two_container" v-if="input.label === 'NO. OF STOREYS'">
+            <div><input type="range" min="1" max="10" step="1" id="slider_7" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+            <div><p class="answer" id="answer_7"></p></div>
+          </div>
+        </div>
+      </div>
+      
+
+      <h5>LOADS</h5>
+      <div class="three_container">
+      <div class="grid_element" v-for="(input, index) in options.loads"> 
+        <!--Input label-->
+        <div class="label_name"><label>{{ input.label }}
+          <span v-if="input.label === 'ENVELOPE WALLS LOAD'">[kN/m]</span>
+          <span v-else>[kN/m<sup>2</sup>]</span> </label></div>
+
+        <!--Slider and input textbox-->
+        <div class="two_container" v-if="input.label === 'VARIABLE FLOOR LOAD'">
+          <div><input type="range" min="1" max="5" step="1" value="3" id="slider_8" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+          <div><p class="answer" id="answer_8"></p></div>
+        </div>
+        <div class="two_container" v-if="input.label === 'FINISHES, CEILING, SERVICES AND PARTITIONS LOAD'">
+          <div><input type="range" min="0" max="1.75" step="0.25" value="3" id="slider_10" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+          <div><p class="answer" id="answer_10"></p></div>
+        </div>
+        <div class="two_container" v-if="input.label === 'ENVELOPE WALLS LOAD'">
+          <div><input type="range" min="1" max="5" step="1" value="3" id="slider_11" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+          <div><p class="answer" id="answer_11"></p></div>
+        </div>
+      </div>
+    </div>
+
+      <div class="dropbox_big">
+        <div>
+          <h5 id="material">EMBODIED CARBON COEFFICIENT</h5>
+        </div>
+        <div class="unit_label">
+          <label>[kgCO<sub>2</sub>e/kg<sub>MAT</sub>]</label>
+        </div>
+      </div>
+      <div class="dropbox_big">
+        <div class="unit_label">
+          <label>DISTRIBUTION</label>
+        </div>
+        <div v-for="(input, index) in options.distribution" class="separate">
+          <template>
+            <select id="distribution_select"
+                class="custom-select" 
+                v-model="input.value"
+                v-bind:autofocus.once="index == 0"
+                v-bind:size.once="input.type == null">
+              <option v-for="option in input.options">{{ option }}</option>
+            </select>
+          </template>
+        </div>
+      </div>
+      
+      
+      <div v-for="(input, index) in options.distribution">
+
+        <div v-if="input.value === 'Triangular'" class="three_container">
+          <div class="grid_element" v-for="(input, index) in options.triangular"> 
+            <div><label>{{ input.label }}</label> </div>
+              <div class="two_container" v-if="input.label === 'LOWER BOUND'">
+                <div><input type="range" min="0.1" max="4.9" step="0.1" value="3" id="slider_12" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_12"></p></div>
+              </div>
+              <div class="two_container" v-if="input.label === 'UPPER BOUND'">
+                <div><input type="range" min="0.1" max="5.1" step="0.1" value="3" id="slider_13" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_13"></p></div>
+              </div>
+              <div class="two_container" v-if="input.label === 'MODE'">
+                <div><input type="range" min="0.11" max="5" step="0.1" value="3" id="slider_14" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_14"></p></div>  
+              </div>
+          </div>
+        </div>
+
+
+        <div v-if="input.value === 'Uniform'" class="three_container">
+          <div class="grid_element" v-for="(input, index) in options.uniform"> 
+              <div><label>{{ input.label }}</label> </div>
+              <div class="two_container" v-if="input.label === 'LOWER BOUND'">
+                <div><input type="range" min="0.1" max="5" step="0.1" value="3" id="slider_15" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_15"></p></div>
+              </div>
+              <div class="two_container" v-if="input.label === 'UPPER BOUND'">
+                <div><input type="range" min="0.1" max=5 step="0.1" value="3" id="slider_16" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_16"></p></div> 
+              </div>
+          </div>
+        </div>
+
+        <div v-if="input.value === 'Gaussian'" class="three_container">
+          <div class="grid_element" v-for="(input, index) in options.gaussian"> 
+              <div><label>{{ input.label }}</label></div>
+              <div class="two_container" v-if="input.label === 'MEAN'">
+                <div><input type="range" min="0.1" max="5" step="0.1" value="3" id="slider_17" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_17"></p></div>
+              </div>
+              <div class="two_container" v-if="input.label === 'STANDARD DEVIATION'">
+                <div><input type="range" min="0.1" max="5.1" step="0.1" value="3" id="slider_18" class="slider" v-model="input.value" oninput="slider(this.id)"></div>
+                <div><p class="answer" id="answer_18"></p></div> 
+              </div>
+          </div>
+        </div>
+
+      </div>
+        
+      <div class="footer_m">
+        <button v-on:click="calculate">
+          {{ options.calculate_button }}
+        </button>
+      </div>
+    </div>
+
+    <div class="small_box">
+      <div class="title">
+        <center><h1><sup>HISTOGRAM</sup></h1></center>
+        <div id='hg'></div>
+      </div>
+      <div v-for="(input, index) in options.material">
+        <br><br><br>
+        <center>
+        <div v-if="input.value === 'Steel'">
+          <label>NOTE: FLOOR SLABS <u>NOT</u> INCLUDED IN THE ANALYSIS</label>
+        </div>
+        <div v-else>
+          <label>NOTE: FLOOR SLABS INCLUDED IN THE ANALYSIS</label>
+        </div>
+      </center>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+
+
+<script>
+// Initialise a blank histogram
+var inputs = []
+histogram(inputs)
+
+  // VUE
+  const KEY_RETURN = 13;
+  const KEY_ESC = 27;
+
+  let app = new Vue(
+    {
+      el: '#app',
+      data: 
+      {
+        options: 
+        {
+          title: 'Untitled',  
+          material: [],
+          distribution: [],
+          uniform: [],
+          gaussian: [],
+          triangular: [],
+          geometry: [],
+          loads: []
+        },
+      },
+      methods: 
+      {
+        cancel() { sketchup.cancel(); },
+        calculate() 
+        {
+          let material = this.options.material.map((input) => 
+          { return input.value; });
+          let geometry = this.options.geometry.map((input) => 
+          { return input.value; });
+          let loads = this.options.loads.map((input) => 
+          { return input.value; });
+          let distribution = this.options.distribution.map((input) => 
+          { return input.value; });
+          let uniform = this.options.uniform.map((input) => 
+          { return input.value; });
+          let gaussian = this.options.gaussian.map((input) => 
+          { return input.value; });
+          let triangular = this.options.triangular.map((input) => 
+          { return input.value; });
+          sketchup.calculate(material, geometry, loads, distribution, uniform, gaussian, triangular);
+        },
+        global_keyup(event) 
+        {
+          switch (event.keyCode) 
+          { case KEY_ESC:
+              this.cancel();
+              break;
+            case KEY_RETURN:
+              this.accept();
+              break;
+          }
+        }
+      },
+      mounted: function() 
+      {
+        // Capture global key events.
+        window.addEventListener('keyup', (event) => 
+        { this.global_keyup(event); });
+        // Signal the Ruby side that the dialog is ready to be interacted with.
+        sketchup.ready();
+      }
+    }
+  );
+
+</script>
+
+</html>

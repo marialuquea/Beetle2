@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>983</width>
+    <height>866</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>983</width>
+    <height>866</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>983</width>
+    <height>866</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Beetle</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="21" column="0">
+     <widget class="QLabel" name="label_variableFloorLoad">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Variable Floor Load</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="label_material">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>MATERIAL</string>
+      </property>
+     </widget>
+    </item>
+    <item row="31" column="3">
+     <widget class="QLabel" name="label_mode">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Mode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="32" column="3">
+     <widget class="QSlider" name="horizontalSlider_mode">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="32" column="2">
+     <widget class="QSlider" name="horizontalSlider_upperBound">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="34" column="2">
+     <widget class="QLabel" name="label_UpperBound_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="34" column="3">
+     <widget class="QLabel" name="label_mode_2">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QLabel" name="label_geometry">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>GEOMETRY</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QComboBox" name="comboBox_material">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="label_secondarySpan_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="2">
+     <widget class="QSlider" name="horizontalSlider_secondarySpan">
+      <property name="minimum">
+       <number>500</number>
+      </property>
+      <property name="maximum">
+       <number>1200</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3">
+     <widget class="QLabel" name="label_NoStoreys">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>No. of Storeys</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="2">
+     <widget class="QLabel" name="label_noSecondarySpan_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="2">
+     <widget class="QSlider" name="horizontalSlider_NoSecondarySpans">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>1300</number>
+      </property>
+      <property name="singleStep">
+       <number>100</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3">
+     <widget class="QLabel" name="label_interstoreyHeight">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Inter-storey Height [m]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QLabel" name="label_secondarySpan">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Secondary Span [m]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QSlider" name="horizontalSlider_interstoreyHeight">
+      <property name="minimum">
+       <number>350</number>
+      </property>
+      <property name="maximum">
+       <number>400</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QLabel" name="label_interstoreyHeight_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="3">
+     <widget class="QSlider" name="horizontalSlider_noStoreys">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+      <property name="singleStep">
+       <number>100</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="3">
+     <widget class="QLabel" name="label_NoStoreys_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0" colspan="2">
+     <widget class="QLabel" name="label_noPrimarySpan">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>No. of Primary Spans</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="2">
+     <widget class="QLabel" name="label_noSecondarySpan">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>No. of Secondary Spans</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="0">
+     <widget class="QLabel" name="label_loads">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>LOADS</string>
+      </property>
+     </widget>
+    </item>
+    <item row="23" column="0">
+     <widget class="QSlider" name="horizontalSlider_variableFloorLoad">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>500</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_primarySpan_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="23" column="2">
+     <widget class="QSlider" name="horizontalSlider_finishesCeiling">
+      <property name="maximum">
+       <number>175</number>
+      </property>
+      <property name="singleStep">
+       <number>25</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="31" column="0">
+     <widget class="QLabel" name="label_lowerBound">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Lower Bound</string>
+      </property>
+     </widget>
+    </item>
+    <item row="31" column="2">
+     <widget class="QLabel" name="label_UpperBound">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Upper Bound</string>
+      </property>
+     </widget>
+    </item>
+    <item row="25" column="3">
+     <widget class="QLabel" name="label_envelopeWallsLoad_2">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="32" column="0" rowspan="2" colspan="2">
+     <widget class="QSlider" name="horizontalSlider_lowerBound">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="25" column="2">
+     <widget class="QLabel" name="label_variableFloorLoad_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="23" column="3">
+     <widget class="QSlider" name="horizontalSlider_envelopeWallsLoad">
+      <property name="minimum">
+       <number>100</number>
+      </property>
+      <property name="maximum">
+       <number>500</number>
+      </property>
+      <property name="singleStep">
+       <number>10</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="25" column="0">
+     <widget class="QLabel" name="label_finishesCeiling_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="3">
+     <widget class="QLabel" name="label_beetle">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>28</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>BEETLE</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_primarySpan">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Primary Span [m]</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QSlider" name="horizontalSlider_primarySpan">
+      <property name="minimum">
+       <number>500</number>
+      </property>
+      <property name="maximum">
+       <number>900</number>
+      </property>
+      <property name="singleStep">
+       <number>9</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="sliderPosition">
+       <number>500</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::NoTicks</enum>
+      </property>
+      <property name="tickInterval">
+       <number>10</number>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QSlider" name="horizontalSlider_noPrimarySpan">
+      <property name="minimum">
+       <number>200</number>
+      </property>
+      <property name="maximum">
+       <number>2100</number>
+      </property>
+      <property name="singleStep">
+       <number>100</number>
+      </property>
+      <property name="pageStep">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="34" column="0">
+     <widget class="QLabel" name="label_lowerBound_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_noPrimarySpan_value">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Value</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="2" rowspan="2">
+     <widget class="QLabel" name="label_finishesCeiling">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Finishes, Ceiling,
+Services And Partitions
+Load</string>
+      </property>
+     </widget>
+    </item>
+    <item row="29" column="1" colspan="2">
+     <widget class="QComboBox" name="comboBox_distribution">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="29" column="0">
+     <widget class="QLabel" name="label_distribution">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Distribution</string>
+      </property>
+     </widget>
+    </item>
+    <item row="27" column="0" colspan="5">
+     <widget class="QLabel" name="label_ecc">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>EMBODIED CARBON COEFFICIENT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="3">
+     <widget class="QLabel" name="label_envelopeWallsLoad">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Envelope Walls Load</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4" rowspan="18" colspan="6">
+     <widget class="QOpenGLWidget" name="openGLWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>36</horstretch>
+        <verstretch>36</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="4">
+     <widget class="QLabel" name="label_explanation">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Move camera by pressing
+ left, right, and middle
+mouse buttons.</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="7">
+     <widget class="QPushButton" name="pushButton_reset_pos">
+      <property name="text">
+       <string>Reset Position</string>
+      </property>
+     </widget>
+    </item>
+    <item row="20" column="5" colspan="2">
+     <widget class="QPushButton" name="pushButton_render">
+      <property name="text">
+       <string>3D Render</string>
+      </property>
+     </widget>
+    </item>
+    <item row="21" column="4">
+     <widget class="QLabel" name="label_histogram">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>HISTOGRAM</string>
+      </property>
+     </widget>
+    </item>
+    <item row="34" column="4">
+     <widget class="QPushButton" name="pushButton_histogram">
+      <property name="text">
+       <string>Generate Histogram</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4" colspan="2">
+     <widget class="QLabel" name="label_building">
+      <property name="font">
+       <font>
+        <family>Sitka Banner</family>
+        <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>BUILDING VISUALISATION</string>
+      </property>
+     </widget>
+    </item>
+    <item row="22" column="4" rowspan="11" colspan="6">
+     <widget class="MplWidget" name="plotWidget" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>983</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MplWidget</class>
+   <extends>QWidget</extends>
+   <header>mplwidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

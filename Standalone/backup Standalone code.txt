@@ -1,0 +1,265 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+import math
+from mc_simulation import MCSimulation as mc
+from myOpenGLWidget import MyOpenGLWidget
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import numpy as np
+from numpy import array
+import scipy.stats as st
+
+
+        # EVERYTHING AFTER THIS IS NOT DESIGNER GENERATED
+        # The scale for sliders is increased 100x fold, this is because sliders only
+        # take in Integer values. When reading or displaying the value remember to divide by 100
+        
+        # Buttons
+        self.pushButton_histogram.clicked.connect(self.generateHistograms)
+        self.pushButton_render.clicked.connect(self.generateBuilding)
+        self.pushButton_reset_pos.clicked.connect(self.resetCamera)
+        
+        # Dropdown boxes
+        self.comboBox_material.addItems(["Steel", "Reinforced Concrete", "Glulam"])
+        self.comboBox_distribution.addItems(["Uniform", "Gaussian", "Triangular"])
+        
+        # Set the default values for everything
+        self.horizontalSlider_lowerBound.setMinimum(10)
+        self.horizontalSlider_lowerBound.setMaximum(500)
+        self.horizontalSlider_upperBound.setMinimum(10)
+        self.horizontalSlider_upperBound.setMaximum(500)
+        self.horizontalSlider_mode.setMinimum(10)
+        self.horizontalSlider_mode.setMaximum(500)
+        self.valueChangePrimarySpan()
+        self.valueChangeSecondarySpan()
+        self.valueChangeInterStoreyHeight()
+        self.valueChangeNoOfPrimarySpans()
+        self.valueChangeNoOfSecondarySpans()
+        self.valueChangeNoOfStoreys()
+        self.valueChangeVariableFloorLoad()
+        self.valueChangeFinishesCeiling()
+        self.valueChangeEnvelopeWallsLoad()
+        self.valueChangeLowerBound()
+        self.valueChangeUpperBound()
+        self.valueChangeMode()
+        self.valueChangeDistribution()
+
+        
+        
+        # Horizontal sliders
+        self.horizontalSlider_primarySpan.valueChanged.connect(self.valueChangePrimarySpan)
+        self.horizontalSlider_secondarySpan.valueChanged.connect(self.valueChangeSecondarySpan)
+        self.horizontalSlider_interstoreyHeight.valueChanged.connect(self.valueChangeInterStoreyHeight)
+        self.horizontalSlider_noPrimarySpan.valueChanged.connect(self.valueChangeNoOfPrimarySpans)
+        self.horizontalSlider_NoSecondarySpans.valueChanged.connect(self.valueChangeNoOfSecondarySpans)
+        self.horizontalSlider_noStoreys.valueChanged.connect(self.valueChangeNoOfStoreys)
+        self.horizontalSlider_variableFloorLoad.valueChanged.connect(self.valueChangeVariableFloorLoad)
+        self.horizontalSlider_finishesCeiling.valueChanged.connect(self.valueChangeFinishesCeiling)
+        self.horizontalSlider_envelopeWallsLoad.valueChanged.connect(self.valueChangeEnvelopeWallsLoad)
+        self.horizontalSlider_lowerBound.valueChanged.connect(self.valueChangeLowerBound)
+        self.horizontalSlider_upperBound.valueChanged.connect(self.valueChangeUpperBound)
+        self.horizontalSlider_mode.valueChanged.connect(self.valueChangeMode)
+        
+        # Drop down
+        self.comboBox_distribution.currentTextChanged.connect(self.valueChangeDistribution)
+        
+    def resetCamera(self):
+        self.openGLWidget.resetCamera()
+        self.openGLWidget.update()
+        
+
+    def generateBuilding(self):
+        self.openGLWidget.changeBuilding(self.valueChangePrimarySpan(), self.valueChangeSecondarySpan(), \
+                                         self.valueChangeInterStoreyHeight(), self.valueChangeNoOfPrimarySpans(), \
+                                         self.valueChangeNoOfSecondarySpans(), self.valueChangeNoOfStoreys())
+            
+        self.openGLWidget.update()
+        
+    def generateHistograms(self):
+        area = self.valueChangePrimarySpan() * self.valueChangeSecondarySpan() \
+        * self.valueChangeNoOfPrimarySpans() * self.valueChangeNoOfSecondarySpans()
+        
+        aspect_ratio = self.valueChangePrimarySpan() * self.valueChangeNoOfPrimarySpans() \
+        / (self.valueChangeSecondarySpan() * self.valueChangeNoOfSecondarySpans())
+        
+        inputs = [area, aspect_ratio, self.valueChangePrimarySpan(), self.valueChangeSecondarySpan(), \
+                  self.valueChangeNoOfPrimarySpans(), self.valueChangeNoOfSecondarySpans(), \
+                  self.valueChangeNoOfStoreys(), self.valueChangeInterStoreyHeight(), \
+                  self.valueChangeFinishesCeiling(), self.valueChangeVariableFloorLoad(), \
+                  self.valueChangeEnvelopeWallsLoad()]
+            
+        # Generate the results based on desired models
+        material = str(self.comboBox_material.currentText())
+        distribution = str(self.comboBox_distribution.currentText())
+        lower = self.valueChangeLowerBound()
+        upper = self.valueChangeUpperBound()
+        mode = self.valueChangeMode()
+        
+        if (distribution == "Uniform" and upper <= lower):
+            self.warningMessage("Ensure that the upper bound is greater than the lower bound.")
+            return
+        if (distribution == "Triangular" and (mode < lower or mode > upper)):
+            self.warningMessage("Ensure that the mode is between the upper and lower bound")
+            return
+        
+        # Run Monte Carlo
+        mcs = mc(inputs, material, distribution, lower, upper, mode)
+        finalList = mcs.getList()
+        
+        
+        # Create Graph
+        self.plotWidget.canvas.ax.clear()
+        self.plotWidget.canvas.ax.hist(finalList, density=True, bins=30, label="Data")
+        self.plotWidget.canvas.ax.set_ylabel('Probability')
+        self.plotWidget.canvas.draw()
+        
+        
+        
+    def warningMessage(self, message):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        
+        msg.setText(message)
+        msg.setWindowTitle("Warning")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.exec_()
+    
+    def valueChangeDistribution(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.comboBox_distribution.currentText()
+        if (value == "Uniform"):
+            self.label_lowerBound.setText(_translate("MainWindow", "Lower Bound"))
+            self.label_UpperBound.setText(_translate("MainWindow", "Upper Bound"))
+            self.label_mode.hide()
+            self.horizontalSlider_mode.hide()
+            self.label_mode_2.hide()
+            try: self.horizontalSlider_lowerBound.valueChanged.disconnect(self.boundariesChangeLower)
+            except Exception: pass
+            self.horizontalSlider_upperBound.setMaximum(500)
+        elif (value == "Gaussian"):
+            self.label_lowerBound.setText(_translate("MainWindow", "Mean"))
+            self.label_UpperBound.setText(_translate("MainWindow", "Standard Deviation"))
+            self.label_mode.hide()
+            self.horizontalSlider_mode.hide()
+            self.label_mode_2.hide()
+            self.horizontalSlider_lowerBound.valueChanged.connect(self.boundariesChangeLower)
+            self.boundariesChangeLower()
+        else:
+            self.label_lowerBound.setText(_translate("MainWindow", "Lower Bound"))
+            self.label_UpperBound.setText(_translate("MainWindow", "Upper Bound"))
+            self.label_mode.show()
+            self.label_mode.setText(_translate("MainWindow", "Mode"))
+            self.horizontalSlider_mode.show()
+            self.label_mode_2.show()
+            try: self.horizontalSlider_lowerBound.valueChanged.disconnect(self.boundariesChangeLower)
+            except Exception: pass
+            self.horizontalSlider_upperBound.setMaximum(500)
+            
+    def boundariesChangeLower(self):
+        newMaximum = self.horizontalSlider_lowerBound.value()
+        newMaximum = self.roundDown(newMaximum / 3, 10)
+        self.horizontalSlider_upperBound.setMaximum(newMaximum)
+    
+    def valueChangePrimarySpan(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_primarySpan.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_primarySpan_value.setText(_translate("MainWindow", str(value)))
+        return value
+    
+    def valueChangeSecondarySpan(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_secondarySpan.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_secondarySpan_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeInterStoreyHeight(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_interstoreyHeight.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_interstoreyHeight_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeNoOfPrimarySpans(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_noPrimarySpan.value()
+        value = self.valueCalc(value, 100.0)
+        self.label_noPrimarySpan_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeNoOfSecondarySpans(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_NoSecondarySpans.value()
+        value = self.valueCalc(value, 100.0)
+        self.label_noSecondarySpan_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeNoOfStoreys(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_noStoreys.value()
+        value = self.valueCalc(value, 100.0)
+        self.label_NoStoreys_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeVariableFloorLoad(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_variableFloorLoad.value()
+        value = self.valueCalc(value, 100.0)
+        self.label_variableFloorLoad_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeFinishesCeiling(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_finishesCeiling.value()
+        value = self.valueCalc(value, 25.0)
+        self.label_finishesCeiling_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeEnvelopeWallsLoad(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_envelopeWallsLoad.value()
+        value = self.valueCalc(value, 100.0)
+        self.label_envelopeWallsLoad_2.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeLowerBound(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_lowerBound.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_lowerBound_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeUpperBound(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_upperBound.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_UpperBound_value.setText(_translate("MainWindow", str(value)))
+        return value
+        
+    def valueChangeMode(self):
+        _translate = QtCore.QCoreApplication.translate
+        value = self.horizontalSlider_mode.value()
+        value = self.valueCalc(value, 10.0)
+        self.label_mode_2.setText(_translate("MainWindow", str(value)))
+        return value
+        
+        
+    def valueCalc(self, value, roundTo):
+        if (value % roundTo != 0):
+            value = self.roundUp(value, roundTo)
+        if (roundTo == 100):
+            return int(value / 100)
+        else:
+            return value / 100
+    
+    def roundUp(self, x, roundTo):
+        return int(math.ceil(x / roundTo)) * roundTo
+    
+    def roundDown(self, x, roundTo):
+        return int(math.floor(x / roundTo)) * roundTo
+
+
+self.openGLWidget = MyOpenGLWidget(self.centralwidget)
