@@ -59,5 +59,5 @@ If step 3 fails, try
 
 
 # TODO
-- [ ] Change dataset URL to github link in python notebook
-- [ ] Change readme
+- [x] Change dataset URL to github link in python notebook
+- [ ] Change readme: add instructions to open Sketchup plugin and python standalone
