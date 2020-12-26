@@ -8,7 +8,7 @@ There are 3 main projects in this repository:
 
 ## To open the Python notebook
 
-## 1. If you don't have it - install conda
+### 1. If you don't have it - install conda
 1. **Check you don't already have conda installed!**
     1. `which conda`
     1. **if you already have it installed, skip ahead to Create an Environment**
@@ -31,7 +31,7 @@ There are 3 main projects in this repository:
 website [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html)
 
 
-## 2. Create an environment for IAML - optional
+### 2. Create an environment for the project - optional
 1. Update conda: `conda update conda`
 1. Create the environment for the project. Call it beetle and install python 3 (*hence the name*):
 ```conda create -n beetle python=3.8 ```
@@ -40,7 +40,7 @@ website [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install
 
  Windows users should instead use `conda activate beetle`
 
-## 3. Open the Python Notebook
+### 3. Open the Python Notebook
 First you need to activate the software environment and then
 start a Jupyter Notebook session from within the folder where the project is
 stored.
