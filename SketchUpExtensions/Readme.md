@@ -1,3 +1,3 @@
-# Beetle^2 Sketchup Extension Source Code
+# Beetle<sup>2</sup> Sketchup Extension Source Code
 
-To do readme 
+To do readme
