@@ -1,4 +1,4 @@
-# Beetle2
+# Beetle<sup>2</sup>
 An artificially-intelligent tool to estimate the whole life carbon emissions of building structures
 
 There are 3 main projects in this repository. CLick on each of them for instructions on how to use them.

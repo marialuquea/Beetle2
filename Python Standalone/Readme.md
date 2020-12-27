@@ -1,3 +1,3 @@
-# Beetle^2 Python app source code 
+# Beetle<sup>2</sup> Python app source code 
 
 To do readme
