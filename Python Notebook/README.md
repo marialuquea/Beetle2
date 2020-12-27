@@ -3,7 +3,7 @@
 ### 1. If you don't have it - install conda
 1. **Check you don't already have conda installed!**
     1. `which conda`
-    1. **if you already have it installed, skip ahead to [Create an Environment]()**
+    1. **if you already have it installed, skip ahead to [Create an Environment](https://github.com/marialuquea/Beetle2/tree/main/Python%20Notebook#2-create-an-environment-for-the-project---optional)**
     1. It doesn't matter if you have miniconda3, or anaconda3 installed.
 1. If you don't have conda, download the latest version of miniconda3
     1. `cd ~/Downloads`
