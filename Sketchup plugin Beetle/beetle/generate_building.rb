@@ -17,12 +17,12 @@ module EdinburghNapier::Beetle
 
         group = model.active_entities.add_group
         entities = group.entities
-        for z in 1..results[6] do
-          for i in 1..results[4] do
-            for j in 1..results[5] do
-              points = create_cube(results[0], results[1], results[0] * i * 1.01, results[1] * j * 1.01, results[3] * z * 1.01)
+        for z in 1..results[5] do
+          for i in 1..results[3] do
+            for j in 1..results[4] do
+              points = create_cube(results[0], results[1], results[0] * i * 1.01, results[1] * j * 1.01, results[2] * z * 1.01)
               face = entities.add_face(points)
-              adjustedresults = results[3]
+              adjustedresults = results[2]
               face.pushpull(-adjustedresults.m)
             end
           end

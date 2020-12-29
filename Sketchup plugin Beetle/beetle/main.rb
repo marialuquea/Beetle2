@@ -9,7 +9,7 @@ require 'beetle/input/dropdown'
 module EdinburghNapier::Beetle
 
     unless file_loaded?(__FILE__)
-      menu = UI.menu('Plugins').add_submenu('HTML InputBox')
+      menu = UI.menu('Plugins').add_submenu('Beetle')
       menu.add_item('Beetle options'){
         self.prompt_beetle_options
       }
@@ -18,7 +18,6 @@ module EdinburghNapier::Beetle
 
     # Inputs
     def self.prompt_beetle_options
-      puts "Promp Beetle Inputs"
       options = {
         title: 'Beetle Inputs',
         cancel_button: 'Cancel',

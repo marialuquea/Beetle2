@@ -32,33 +32,34 @@ module EdinburghNapier::Beetle
                 #puts "MATERIAL-",material
 
                 if (material[0].eql?("Steel"))
-                    puts "Steel model applied"
                     steel_optimised = SteelOptimised.new
                     weights_optimised = steel_optimised.getWeights()
                     biases_optimised = steel_optimised.getBiases()
                     answer_optimised = createAndCalculate(inputs, weights_optimised, biases_optimised)[0].round()
+
                     steel_rationalised = SteelRationalised.new
                     weights_rationalised = steel_rationalised.getWeights()
                     biases_rationalised = steel_rationalised.getBiases()
                     answer_rationalised = createAndCalculate(inputs, weights_rationalised, biases_rationalised)[0].round()
+
                     mc = Simulation::MonteCarlo.new(answer_optimised, answer_rationalised, distribution_type, distribution_value)
                     histogram_output = mc.getOutputs
                     @histogram_data = histogram_output
                 elsif (material[0] == "Reinforced Concrete")
-                    puts "Reinforced concrete model applied"
                     concrete_optimised = ConcreteOptimised.new
                     weights_optimised = concrete_optimised.getWeights()
                     biases_optimised = concrete_optimised.getBiases()
                     answer_optimised = createAndCalculate(inputs, weights_optimised, biases_optimised)[0].round()
+
                     concrete_rationalised = ConcreteRationalised.new
                     weights_rationalised = concrete_rationalised.getWeights()
                     biases_rationalised = concrete_rationalised.getBiases()
                     answer_rationalised = createAndCalculate(inputs, weights_rationalised, biases_rationalised)[0].round()
+
                     mc = Simulation::MonteCarlo.new(answer_optimised, answer_rationalised, distribution_type, distribution_value)
                     histogram_output = mc.getOutputs
                     @histogram_data = histogram_output
                 elsif (material[0] == "Glulam")
-                    puts "Glulam model applied"
                     glulam_rationalised = GlulamRationalised.new
                     weights_rationalised = glulam_rationalised.getWeights()
                     biases_rationalised = glulam_rationalised.getBiases()

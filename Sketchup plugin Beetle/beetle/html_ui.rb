@@ -11,7 +11,6 @@ module EdinburghNapier::Beetle
     class InputBox
 
       def initialize(*args)
-        puts "Initialising..."
         defaults = {
           title: Sketchup.app_name,
           cancel_button: 'Cancel',
@@ -56,38 +55,45 @@ module EdinburghNapier::Beetle
           #puts "GAUSSIAN", gaussian
           #puts "TRIANGLE", triangle
 
-          puts "CHECKING SLIDERS"
           js_command = "checkSliders()"
           window.execute_script(js_command)
 
           # Convert inputs to their type and into a single array list (results)
           results_dist = []
+          correct_dists = true
           if distribution[0] == 'Uniform'
             results_dist = convert_values(@options, distribution[0], uniform)
+            if (results_dist[0] >= results_dist[1])
+              correct_dists = false
+            end
           elsif distribution[0] == 'Triangular'
             results_dist = convert_values(@options, distribution[0], triangular)
+            if (results_dist[0] >= results_dist[1] && results_dist[2] >= results_dist[0] && results_dist[2] <= results_dist[1])
+              correct_dists = false
+            end
           elsif distribution[0] == 'Gaussian'
             results_dist = convert_values(@options, distribution[0], gaussian)
+            if ((results_dist[0] - (3 * results_dist[1]) < 0))
+              correct_dists = false
+            end
           end 
           results_geometry = convert_values(@options, 'geometry', geometry)
           results_loads = convert_values(@options, 'loads', loads)
           results_distribution_name = convert_values(@options, 'distribution', distribution)
           results = results_geometry.push(*results_loads).push(*results_distribution_name).push(*results_dist)
-          #puts results
 
 
-          begin
-            preds = Predictions::ApplyModel.new(results_geometry, results_loads, distribution[0], results_dist, material)
-            #puts "preds", preds
-            histogram_data = preds.returnHistogramData() # method in apply_model.rb
-            puts "PLOTTING HISTOGRAM"
-            js_command = "plot_histogram(" + histogram_data.to_s + ")"
-            window.execute_script(js_command)
-          rescue NoMethodError => e
-            puts e
-            puts "PLOTTING HISTOGRAM in rescue mode"
-            js_command = "plot_histogram('')"
-            window.execute_script(js_command)
+          if !results.any?{ |e| e.nil? } && correct_dists
+            begin
+              preds = Predictions::ApplyModel.new(results_geometry, results_loads, distribution[0], results_dist, material)
+              #puts "preds", preds
+              histogram_data = preds.returnHistogramData() # method in apply_model.rb
+              js_command = "plot_histogram(" + histogram_data.to_s + ")"
+              window.execute_script(js_command)
+            rescue NoMethodError => e
+              puts "Error in html_ui.rb: ", e, "PLOTTING EMPTY HISTOGRAM in rescue mode"
+              window.execute_script("plot_histogram('')")
+            end
           end
 
           # Generate Building in Sketchup

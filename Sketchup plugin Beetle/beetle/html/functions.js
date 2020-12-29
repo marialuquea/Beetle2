@@ -1,24 +1,7 @@
 function slider(id) {
-    // var lastChar = id.substr(id.length - 1)
     var index = id.split("_");
     var x = document.getElementById(id).value;
     document.getElementById('answer_' + index[1]).innerHTML =  x;
-
-    // Gaussian
-    if (id === 'slider_17'){ document.getElementById('slider_18').max = x/3; } // mean
-
-    // Triangular
-    if (id == 'slider_12') {  // triangle lower bound
-      document.getElementById('slider_14').min = x; 
-      document.getElementById('slider_13').min = x;
-    }
-    if (id == 'slider_13') {  // triangle upper bound
-      document.getElementById('slider_14').max = x; 
-      document.getElementById('slider_12').max = x;
-    }
-    if (document.getElementById('slider_14').min > document.getElementById('slider_14').max){
-      alert('Lower bound should be smaller than upper bound');
-    }
 }
 
 var ready = false;
