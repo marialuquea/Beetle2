@@ -5,7 +5,3 @@ There are 3 main projects in this repository. Click on each of them for instruct
 - The [python notebook](https://github.com/marialuquea/Beetle2/tree/main/Python%20Notebook) used to experiment with the datasets and Machine Learning models
 - The [python app](https://github.com/marialuquea/Beetle2/tree/main/Python%20Standalone) that can be used as a tool to predict carbon emission of building structures
 - The [sketchup ruby app](https://github.com/marialuquea/Beetle2/tree/main/SketchUpExtensions)
-
-
-# TODO
-- [ ] Change readme: add instructions to open Sketchup plugin and python standalone
